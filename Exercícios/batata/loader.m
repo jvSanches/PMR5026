@@ -1,4 +1,4 @@
-clear
+
 filename = 'Entrada_ex3.txt';
 % Open and read the content
 
@@ -71,4 +71,6 @@ for i = 1:length(Text)
     end
     
 end
+
+
 
