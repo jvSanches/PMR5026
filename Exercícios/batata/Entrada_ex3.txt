@@ -1,3 +1,8 @@
+HEADDER
+Primeiro exercicio
+cabecalho de arquivo padrao
+Separar secoes com linhas vazias
+
 NODES
 0 0 
 0 1
@@ -11,6 +16,7 @@ ELEMENTS
 
 LOADS
 14.14 14.14
+0 0
 0 0
 0 0
 

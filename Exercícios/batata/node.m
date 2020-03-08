@@ -1,0 +1,44 @@
+classdef node < handle
+    %NODE Node for mef
+    %   Detailed explanation goes here
+    
+    properties
+        x,
+        y,
+        fx,
+        fy,
+        cx
+        cy,
+        constrained;
+        
+    end
+    
+    methods
+        function obj = node(n_x,n_y)
+            %NODE Construct an instance of this class
+            %   Detailed explanation goes here
+            obj.x = n_x;
+            obj.y = n_y;
+            obj.fx = 0;
+            obj.fy = 0;
+            obj.constrained = 0;
+        end
+        function setLoad(obj, nfx, nfy)
+            obj.fx = nfx;
+            obj.fy = nfy;
+        end
+            
+        function constrain(obj, c_x, c_y)
+            obj.constrained = 1;
+            obj.cx = c_x;
+            obj.cy = c_y;
+        end
+        
+        function outputArg = method1(obj,inputArg)
+            %METHOD1 Summary of this method goes here
+            %   Detailed explanation goes here
+            outputArg = obj.Property1 + inputArg;
+        end
+    end
+end
+
