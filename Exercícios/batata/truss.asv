@@ -31,8 +31,8 @@ classdef truss
             obj.T = [ l  m  0  0;
                      -m  l  0  0;
                       0  0  l  m;
-                      0  0 -m  l];
-            K_loc = ((obj.E*obj.A)/obj.L)*[1 0 -1 0; 0 0 0 0; -1 0 1 0; 0 0 0 0];
+                      0  0 -l  m];
+            K_loc = ((obj.E*obj.A)/obj.L)*[1 0 -1 0; -1 1];
             obj.K_glob = (obj.T^-1)*K_loc*obj.T;
         end
     end

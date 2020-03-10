@@ -11,14 +11,13 @@ fclose(fid);
 nodes = [];
 for i = 1:length(Text)
    if strcmp(Text{i},'NODES')
-       id_no = 0;
+       n
        while (1)
            a = sscanf(string(Text(i+1)), '%f %f', [1 2]);
            if isempty(a)
                break;
            else
-               id_no = id_no + 1;
-               new_node = node(id_no, a(1), a(2));
+               new_node = node(a(1), a(2));
                nodes = [nodes new_node];
                i = i+1;
            end
@@ -28,14 +27,12 @@ end
 elements = [];
 for i = 1:length(Text)
    if strcmp(Text{i},'ELEMENTS')
-       id_elem = 0;
        while (1)
            a = sscanf(string(Text(i+1)), '%f %f %f %f', [1 4]);
            if isempty(a)
                break;
            else
-               id_elem = id_elem + 1;
-               new_element = truss(id_elem, nodes(a(1)), nodes(a(2)), a(3), a(4));
+               new_element = truss(nodes(a(1)), nodes(a(2)), a(3), a(4));
                elements = [elements new_element];
                i = i+1;
            end
@@ -75,6 +72,6 @@ for i = 1:length(Text)
    end
 end
 
-clear Text new_node new_element i j filename fid a ans id_no id_elem
+clear Text new_node new_element i j filename fid a ans
 
 

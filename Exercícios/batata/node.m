@@ -3,20 +3,21 @@ classdef node < handle
     %   Detailed explanation goes here
     
     properties
+        id,
         x,
         y,
         fx,
         fy,
-        cx
+        cx,
         cy,
         constrained;
-        
     end
     
     methods
-        function obj = node(n_x,n_y)
+        function obj = node(id, n_x, n_y)
             %NODE Construct an instance of this class
             %   Detailed explanation goes here
+            obj.id = id;
             obj.x = n_x;
             obj.y = n_y;
             obj.fx = 0;
@@ -32,12 +33,6 @@ classdef node < handle
             obj.constrained = 1;
             obj.cx = c_x;
             obj.cy = c_y;
-        end
-        
-        function outputArg = method1(obj,inputArg)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
-            outputArg = obj.Property1 + inputArg;
         end
     end
 end
