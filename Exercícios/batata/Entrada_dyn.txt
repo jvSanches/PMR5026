@@ -1,10 +1,16 @@
 #HEADER
-Primeiro exercicio
+Teste dinamico
 cabecalho de arquivo padrao
 Separar secoes com linhas vazias
 
 #DYNAMIC
-0
+1
+
+#TIMESTEP
+0.1
+
+#SIMTIME
+1
 
 #NODES
 0 0 
@@ -19,10 +25,19 @@ Separar secoes com linhas vazias
 
 #LOADS
 @1
-14.14 14.14
+0 0
+0 0 
+0 0
+0 0 
+5 5
+6 6
+7 7
+0 0
+0 0
+0 0
+0 0
 
-
-#CONSTRAINTS
+#CONSTRAINS
 @2
 0 0
 @3
