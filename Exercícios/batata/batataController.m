@@ -1,4 +1,7 @@
 clear
 close all
 run loader.m
-run plotUndeformed.m
+run plotter.m
+run preProcessor.m
+run solver.m
+run plotter.m
