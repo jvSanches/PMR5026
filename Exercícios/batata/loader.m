@@ -1,5 +1,5 @@
 clear 
-filename = 'Entrada_ex3.txt';
+filename = 'ex_1_din.txt';
 %% Open and read the file
 
 fid = fopen(filename);
@@ -93,11 +93,11 @@ elements = [];
 for i = 1:length(Text)
    if strcmp(Text{i},'#ELEMENTS')
        while (1)
-           a = sscanf(string(Text(i+1)), '%f %f %f %f', [1 4]);
+           a = sscanf(string(Text(i+1)), '%f %f %f %f %f', [1 5]);
            if isempty(a)
                break;
            else
-               new_element = truss(nodes(a(1)), nodes(a(2)), a(3), a(4));
+               new_element = truss(nodes(a(1)), nodes(a(2)), a(3), a(4), a(5));
                elements = [elements new_element];
                i = i+1;
            end

@@ -1,0 +1,32 @@
+@HEADER
+Exercicio 1 - dinamico
+
+@DYNAMIC
+1
+
+@TIMESTEP 
+0.01
+
+@SIMTIME
+1
+
+#NODES
+0 0 
+-0.508 0
+
+#ELEMENTS
+1 2 0.000625 206843000000 7800
+
+
+#LOADS
+@2
+0 0
+450 0 
+
+
+#CONSTRAINS
+@1
+0 0
+
+
+
