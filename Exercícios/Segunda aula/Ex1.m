@@ -1,7 +1,8 @@
-close all
 clear all
 
-n_elementos = 5;
+n_elementos = 50;
+
+%nós
 n = n_elementos + 1;
 
 mu = 16e-6;
@@ -46,3 +47,4 @@ plot(-u, y)
 title("Perfil de velocidades")
 ylabel("Altura(m)")
 xlabel("Velocidade (m/s)")
+hold on

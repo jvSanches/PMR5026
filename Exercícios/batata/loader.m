@@ -1,5 +1,5 @@
 clear 
-filename = 'ex_1_din.txt';
+filename = 'Entrada_ex3.txt';
 %% Open and read the file
 
 fid = fopen(filename);

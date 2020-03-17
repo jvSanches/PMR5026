@@ -49,6 +49,14 @@ classdef truss
             index1 = obj.n1.index;
             index2 = obj.n2.index;
         end
+        function tension = getTension(obj)
+            nx1 = obj.n1.x+obj.n1.dx;
+            ny1 = obj.n1.y+obj.n1.dy;
+            nx2 = obj.n2.x+obj.n2.dx;
+            ny2 = obj.n2.y+obj.n2.dy;
+            L_strain = sqrt((nx2 - nx1)^2 + (ny2 - ny1)^2);
+            tension = (obj.L-L_strain)/obj.L * obj.E;
+        end
     end
 end
 
