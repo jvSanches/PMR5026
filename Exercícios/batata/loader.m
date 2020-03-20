@@ -1,6 +1,5 @@
-clear 
-filename = 'Entrada_ex3.txt';
 %% Open and read the file
+filename = 'ex_1_din.txt';
 
 fid = fopen(filename);
 Text = textscan(fid,'%s','delimiter','\n');
@@ -44,6 +43,7 @@ if dynamic_mode
     timestep =0;
     for i = 1:length(Text)
        if strcmp(Text{i},'#TIMESTEP')
+           
            a = sscanf(string(Text(i+1)), '%f');
            if isempty(a)
                break;
@@ -169,6 +169,81 @@ for i = 1:length(Text)
            
        end
        
+   end
+end
+
+%% Read initial Displacement
+for i = 1:length(Text)
+   if strcmp(Text{i},'#INITIALDISP')
+       reading_on_node = 0;
+       j=1;
+       initial_disp = zeros(2,length(nodes));
+       
+       while(1)
+           a = sscanf(string(Text(i+j)), '%s');
+           disp(a);
+           if isempty(a)               
+               break;
+           else               
+               if a(1)=='@'
+                   reading_on_node = str2num(a(2:end));
+                   a = sscanf(string(Text(i+j+1)), '%f %f', [1 2]);
+                   initial_disp(:,reading_on_node) = transpose(a);
+               end               
+           end
+           j=j+1;
+       end
+       break;
+   end
+end
+
+%% Read initial Velocity
+for i = 1:length(Text)
+   if strcmp(Text{i},'#INITIALVEL')
+       reading_on_node = 0;
+       j=1;
+       initial_vel = zeros(2,length(nodes));
+       
+       while(1)
+           a = sscanf(string(Text(i+j)), '%s');
+           disp(a);
+           if isempty(a)               
+               break;
+           else               
+               if a(1)=='@'
+                   reading_on_node = str2num(a(2:end));
+                   a = sscanf(string(Text(i+j+1)), '%f %f', [1 2]);
+                   initial_vel(reading_on_node,:) = a;
+               end               
+           end
+           j=j+1;
+       end
+       break;
+   end
+end
+
+%% Read initial Acceleration
+for i = 1:length(Text)
+   if strcmp(Text{i},'#INITIALACCEL')
+       reading_on_node = 0;
+       j=1;
+       initial_accel = zeros(2,length(nodes));
+       
+       while(1)
+           a = sscanf(string(Text(i+j)), '%s');
+           disp(a);
+           if isempty(a)               
+               break;
+           else               
+               if a(1)=='@'
+                   reading_on_node = str2num(a(2:end));
+                   a = sscanf(string(Text(i+j+1)), '%f %f', [1 2]);
+                   initial_accel(reading_on_node,:) = a;
+               end               
+           end
+           j=j+1;
+       end
+       break;
    end
 end
 

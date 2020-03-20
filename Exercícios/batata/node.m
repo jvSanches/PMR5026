@@ -11,7 +11,7 @@ classdef node < handle
         dx,
         dy,
         xconstrained,
-        yconstrained
+        yconstrained,
         
         
     end

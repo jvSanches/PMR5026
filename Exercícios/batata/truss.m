@@ -40,12 +40,21 @@ classdef truss
                             
         end
         
-        function [k11, k12, k22, index1, index2] = decomposeToGlobal(obj)
+        function [k11, k12, k22, index1, index2] = decomposeStiffnes(obj)
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
             k11 = obj.K(1:2,1:2);
             k12 = obj.K(1:2,3:4);
             k22 = obj.K(3:4,3:4);
+            index1 = obj.n1.index;
+            index2 = obj.n2.index;
+        end
+        function [m11, m12, m22, index1, index2] = decomposeMass(obj)
+            %METHOD1 Summary of this method goes here
+            %   Detailed explanation goes here
+            m11 = obj.M(1:2,1:2);
+            m12 = obj.M(1:2,3:4);
+            m22 = obj.M(3:4,3:4);
             index1 = obj.n1.index;
             index2 = obj.n2.index;
         end

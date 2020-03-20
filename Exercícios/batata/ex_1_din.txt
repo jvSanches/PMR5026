@@ -1,13 +1,14 @@
-@HEADER
+#HEADER
 Exercicio 1 - dinamico
+Dynamic values are zero, unless defined
 
-@DYNAMIC
+#DYNAMIC
 1
 
-@TIMESTEP 
+#TIMESTEP
 0.01
 
-@SIMTIME
+#SIMTIME
 1
 
 #NODES
@@ -27,6 +28,12 @@ Exercicio 1 - dinamico
 #CONSTRAINS
 @1
 0 0
+
+#INITIALDISP
+
+#INITIALVEL
+
+#INITIALACCEL
 
 
 
