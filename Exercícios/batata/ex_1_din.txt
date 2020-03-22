@@ -29,7 +29,11 @@ Dynamic values are zero, unless defined
 @1
 0 0
 @2
+<<<<<<< HEAD
 u 0
+=======
+-1 0
+>>>>>>> 4cd180f8f2ca4a95552ab220971a550989d6da92
 
 #INITIALDISP
 
