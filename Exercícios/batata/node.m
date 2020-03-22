@@ -38,11 +38,14 @@ classdef node < handle
         end
             
         function constrain(obj, c_x, c_y)
+            
             if c_x ~= 'u'
+                c_x = str2num(c_x);
                 obj.xconstrained = 1;
                 obj.dx = c_x;
             end
             if c_y ~= 'u'
+                c_y = str2num(c_y);
                 obj.yconstrained = 1;
                 obj.dy = c_y;
             end
