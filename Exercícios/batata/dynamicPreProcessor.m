@@ -85,5 +85,6 @@ for i=1:length(elements)
     Mglobal = Mglobal + Mdist;
 end
 disp('Done')
-    
+
+Cglobal = zeros(2*length(nodes));
 
