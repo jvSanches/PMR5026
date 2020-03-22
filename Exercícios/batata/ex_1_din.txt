@@ -6,7 +6,7 @@ Dynamic values are zero, unless defined
 1
 
 #TIMESTEP
-0.0001
+0.00001
 
 #SIMTIME
 1

@@ -49,3 +49,9 @@ for i=2:steps-1
 end
 
 disp('Done')
+
+%% Plot dos valores desejados
+% limit = 10000; figure; plot(0:timestep:(limit-1)*timestep,D(1:limit,2))
+T2 = 0.0128;
+t = 0:timestep:2*T2;
+figure; plot(t,D(1:length(t),4))
