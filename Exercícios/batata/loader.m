@@ -1,5 +1,5 @@
 %% Open and read the file
-filename = 'ex_1_din.txt';
+%filename = 'ex_1_din.txt';
 
 fid = fopen(filename);
 Text = textscan(fid,'%s','delimiter','\n');
@@ -140,33 +140,50 @@ end
 %% Read Constrains
 for i = 1:length(Text)
    if strcmp(Text{i},'#CONSTRAINTS')
-       reading_constrain_on_node = 0;
-       part_constrain_data = [];
+%        reading_constrain_on_node = 0;
+%        part_constrain_data = [];
+%        j=1;
+%        while (1)
+%            
+%            a = sscanf(string(Text(i+j)), '%s');
+%            if isempty(a)               
+%                if reading_constrain_on_node
+%                        nodes(reading_constrain_on_node).constrain(part_constrain_data(:,1),part_constrain_data(:,2));
+%                        part_constrain_data = [];
+%                end 
+%                break;
+%            else               
+%                if a(1)=='@'
+%                    
+%                    if reading_constrain_on_node
+%                        nodes(reading_constrain_on_node).constrain(part_constrain_data(:,1),part_constrain_data(:,2));
+%                        part_constrain_data = [];
+%                    end                   
+%                    reading_constrain_on_node = str2num(a(2:end));
+%                else
+%                    a = sscanf(string(Text(i+j)), '%f %f', [1 2]);
+%                    part_constrain_data = [part_constrain_data ; a];
+%                end
+%            end
+%            j = j+1;
+%            
+%        end
+       reading_on_node = 0;
        j=1;
-       while (1)
+       while(1)
            
            a = sscanf(string(Text(i+j)), '%s');
+           
            if isempty(a)               
-               if reading_constrain_on_node
-                       nodes(reading_constrain_on_node).constrain(part_constrain_data(:,1),part_constrain_data(:,2));
-                       part_constrain_data = [];
-               end 
                break;
            else               
                if a(1)=='@'
-                   
-                   if reading_constrain_on_node
-                       nodes(reading_constrain_on_node).constrain(part_constrain_data(:,1),part_constrain_data(:,2));
-                       part_constrain_data = [];
-                   end                   
-                   reading_constrain_on_node = str2num(a(2:end));
-               else
-                   a = sscanf(string(Text(i+j)), '%f %f', [1 2]);
-                   part_constrain_data = [part_constrain_data ; a];
-               end
+                   reading_on_node = str2num(a(2:end));
+                   a = sscanf(string(Text(i+j+1)), '%s %s', [1 2]);
+                   nodes(reading_on_node).constrain(a(1),a(2));
+               end               
            end
-           j = j+1;
-           
+           j=j+1;
        end
        
    end
@@ -248,7 +265,7 @@ for i = 1:length(Text)
 end
 
 %% Display loaded info
-clc
+%clc
 disp([filename ' loaded'])
 disp('----------------------------------------------------')
 disp(header_lines)
