@@ -1,4 +1,4 @@
-steps = simtime/timestep;
+steps = round(simtime/timestep);
 dof = 2*length(nodes);
 D = zeros(steps+1, dof);
 Ddot = zeros(steps+1, dof);

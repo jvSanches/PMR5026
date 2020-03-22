@@ -44,8 +44,8 @@ for i=2:steps-1
     R_int = Kglobal*Dn;
     Fn = F(i,:)';
     
-    Dn_new = M_inv*(Fn- R_int + MC1*Dn - MC2*Dn_1);
-    D(i+1,:) = Dn_new;
+    Dn_new = M_inv*(Fn-R
+    D(i+1,:) = M_inv*(F(i,:)' - Kglobal*D(i,:)' + MC1*D(i,:)' - MC2*D(i-1,:)');
 end
 
 disp('Done')
