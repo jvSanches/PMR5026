@@ -31,7 +31,7 @@ classdef truss
             m = (node2.y-node1.y) / obj.L;   
             obj.K = (obj.E*obj.A/obj.L)*[l*l l*m -l*l -l*m;
                              l*m m*m -l*m -m*m;
-                             -l*l -l*m l*l -m*m;
+                             -l*l -l*m l*l l*m;
                              -l*m -m*m l*m m*m];
             obj.M = (obj.A * obj.ro * obj.L/6)*[2*l*l 2*l*m l*l l*m;
                                                 2*l*m 2*m*m l*m m*m;

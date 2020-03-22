@@ -24,6 +24,7 @@ for i=1:length(elements)
     Kdist(index2,index2+1) = k22(1,2);
     Kdist(index2+1,index2) = k22(2,1);
     Kdist(index2+1,index2+1) = k22(2,2);
+    disp(Kdist);
     
     Kglobal = Kglobal + Kdist;
 end
@@ -35,6 +36,4 @@ for i=1:length(nodes)
     F(2*i - 1) = nodes(i).fx;
     F(2*i) = nodes(i).fy;
 end
-
-
 

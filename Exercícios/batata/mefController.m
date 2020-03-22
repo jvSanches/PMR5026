@@ -1,6 +1,8 @@
 clear
 close all
 filename = 'ex_2_din_ponte.txt';
+%filename = 'ex_1_din.txt';
+%filename = 'teste.txt';
 
 run loader.m
 run plotter.m

@@ -50,7 +50,8 @@ Dynamic values are zero, unless defined
 
 #LOADS
 @1
-0 -10000
+0 -50000 
+
 
 #CONSTRAINTS
 @12

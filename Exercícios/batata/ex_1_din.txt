@@ -25,9 +25,11 @@ Dynamic values are zero, unless defined
 450 0 
 
 
-#CONSTRAINS
+#CONSTRAINTS
 @1
 0 0
+@2
+u 0
 
 #INITIALDISP
 

@@ -15,10 +15,18 @@ for i=1:length(nodes)
     max_y = max(max_y, ny);
     min_x = min(min_x, nx);
     min_y = min(min_y, ny);
-    if nodes(i).xconstrained && nodes(i).yconstrained
-        scatter(nx, ny, 'filled', 'red');
+    if nodes(i).xconstrained
+        if nodes(i).yconstrained
+            scatter(nx, ny, 's', 'filled', 'red');
+        else
+            scatter(nx, ny, '>', 'filled', 'red');
+        end
     else 
-        scatter(nx, ny, 'red');
+        if nodes(i).yconstrained
+            scatter(nx, ny,'^' ,'red');
+        else
+            scatter(nx, ny, 'red');
+        end
     end
     text(nx+0.1, ny+0.1, string(i));
 end
