@@ -1,5 +1,5 @@
-classdef truss
-    %UNTITLED truss element
+classdef beam
+    %UNTITLED beam element
     %   Detailed explanation goes here
     
     properties
@@ -13,12 +13,13 @@ classdef truss
         K,
         M,
         ro,
+        I
         
         
     end
     
     methods
-        function obj = truss(node1, node2, area, e_modulus, density)
+        function obj = beam(node1, node2, area, e_modulus, i_moment, density)
             %UNTITLED Construct an instance of this class
             %   Detailed explanation goes here
             obj.n1 = node1;
@@ -27,18 +28,28 @@ classdef truss
             obj.E = e_modulus;
             obj.ro = density;
             obj.L = sqrt((node2.x - node1.x)^2 + (node2.y - node1.y)^2);
+            obj.I = i_moment;
             l = (node2.x-node1.x) / obj.L;
-            m = (node2.y-node1.y) / obj.L;   
-            obj.K = (obj.E*obj.A/obj.L)*[l*l l*m 0 -l*l -l*m 0;
-                                         l*m m*m 0 -l*m -m*m 0;
-                                         0 0 1 0 0 0;
-                                        -l*l -l*m 0 l*l l*m 0;
-                                         -l*m -m*m 0 l*m m*m 0;
-                                         0 0 0 0 0 1];
-            obj.M = (obj.A * obj.ro * obj.L/6)*[2*l*l 2*l*m l*l l*m;
-                                                2*l*m 2*m*m l*m m*m;
-                                                l*l l*m 2*l*l 2*l*m;
-                                                l*m m*m 2*l*m 2*m*m];
+            m = (node2.y-node1.y) / obj.L;
+            A = obj.A;
+            E = obj.E;
+            L = obj.L;
+            I = obj.I;
+            K = [A*E/L 0 0 -A*E/L 0 0;
+                0 12*E*I/L^3 6*E*I/L^2 0 -12*E*I/L^3 6*E*I/L^2;
+                0 6*E*I/L^2 4*E*I/L 0 -6*E*I/L^2 2*E*I/L;
+                -A*E/L 0 0 A*E/L 0 0;
+                0 -12*E*I/L^3 -6*E*I/L^2 0 12*E*I/L^3 -6*E*I/L^2;
+                0 6*E*I/L^2 2*E*I/L 0 -6*E*I/L^2 4*E*I/L];
+            T = [l m 0 0 0 0;
+                 -m l 0 0 0 0;
+                 0 0 1 0 0 0;
+                 0 0 0 l m 0;
+                 0 0 0 -m l 0;
+                 0 0 0 0 0 1];
+            obj.K = T\K * T;
+                                
+            
                             
         end
         

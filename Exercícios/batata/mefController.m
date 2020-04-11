@@ -1,8 +1,9 @@
 clear all
 close all
-filename = 'ex_2_din_ponte.txt';
-%filename = 'ex_1_din.txt';
+%filename = 'ex_2_din_ponte.txt';
+filename = 'Entrada_ex3.txt';
 %filename = 'teste.txt';
+%filename = 'teste_vigas.txt';
 
 run loader.m
 run plotter.m

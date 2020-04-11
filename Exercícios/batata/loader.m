@@ -93,11 +93,16 @@ elements = [];
 for i = 1:length(Text)
    if strcmp(Text{i},'#ELEMENTS')
        while (1)
-           a = sscanf(string(Text(i+1)), '%f %f %f %f %f', [1 5]);
+           a = sscanf(string(Text(i+1)), '%s %f %f %f %f %f %f', [1 7]);
            if isempty(a)
                break;
            else
-               new_element = truss(nodes(a(1)), nodes(a(2)), a(3), a(4), a(5));
+               if a(1) == 't'
+                    new_element = truss(nodes(a(2)), nodes(a(3)), a(4), a(5), a(6));
+                    
+               elseif a(1) == 'b'
+                    new_element = beam(nodes(a(2)), nodes(a(3)), a(4), a(5), a(6), a(7));
+               end
                elements = [elements new_element];
                i = i+1;
            end
@@ -140,47 +145,17 @@ end
 %% Read Constrains
 for i = 1:length(Text)
    if strcmp(Text{i},'#CONSTRAINTS')
-%        reading_constrain_on_node = 0;
-%        part_constrain_data = [];
-%        j=1;
-%        while (1)
-%            
-%            a = sscanf(string(Text(i+j)), '%s');
-%            if isempty(a)               
-%                if reading_constrain_on_node
-%                        nodes(reading_constrain_on_node).constrain(part_constrain_data(:,1),part_constrain_data(:,2));
-%                        part_constrain_data = [];
-%                end 
-%                break;
-%            else               
-%                if a(1)=='@'
-%                    
-%                    if reading_constrain_on_node
-%                        nodes(reading_constrain_on_node).constrain(part_constrain_data(:,1),part_constrain_data(:,2));
-%                        part_constrain_data = [];
-%                    end                   
-%                    reading_constrain_on_node = str2num(a(2:end));
-%                else
-%                    a = sscanf(string(Text(i+j)), '%f %f', [1 2]);
-%                    part_constrain_data = [part_constrain_data ; a];
-%                end
-%            end
-%            j = j+1;
-%            
-%        end
        reading_on_node = 0;
        j=1;
-       while(1)
-           
-           a = sscanf(string(Text(i+j)), '%s');
-           
+       while(1)           
+           a = sscanf(string(Text(i+j)), '%s');           
            if isempty(a)               
                break;
            else               
                if a(1)=='@'
                    reading_on_node = str2num(a(2:end));
-                   a = sscanf(string(Text(i+j+1)), '%s %s', [1 2]);
-                   nodes(reading_on_node).constrain(a(1),a(2));
+                   a = sscanf(string(Text(i+j+1)), '%s %s %s', [1 3]);
+                   nodes(reading_on_node).constrain(a(1),a(2),a(3));
                end               
            end
            j=j+1;
@@ -204,7 +179,7 @@ for i = 1:length(Text)
            else               
                if a(1)=='@'
                    reading_on_node = str2num(a(2:end));
-                   a = sscanf(string(Text(i+j+1)), '%f %f', [1 2]);
+                   a = sscanf(string(Text(i+j+1)), '%f %f %f', [1 3]);
                    initial_disp(:,reading_on_node) = transpose(a);
                end               
            end

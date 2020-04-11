@@ -86,5 +86,4 @@ for i=1:length(elements)
 end
 disp('Done')
 
-Cglobal = zeros(2*length(nodes));
-
+Cglobal = 0.0004 * (0.3*Mglobal + 0.03*Kglobal);

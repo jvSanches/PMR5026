@@ -6,29 +6,41 @@ for i=1:length(nodes)
     if nodes(i).xconstrained
         
         for j = 1:length(Kglobal)
-            F(j) = F(j) - Kglobal(j,2*i-1) * nodes(i).dx;
-            Kglobal(2*i-1,j) = 0;
-            Kglobal(j,2*i-1) = 0;                       
+            F(j) = F(j) - Kglobal(j,3*i-2) * nodes(i).dx;
+            Kglobal(3*i-2,j) = 0;
+            Kglobal(j,3*i-2) = 0;                       
         end
-        F(2*i-1) = nodes(i).dx;
-        Kglobal(2*i-1, 2*i-1) = 1;
+        F(3*i-2) = nodes(i).dx;
+        Kglobal(3*i-2, 3*i-2) = 1;
     end
     if nodes(i).yconstrained
         for j = 1:length(Kglobal)
-            F(j) = F(j) - Kglobal(j,2*i) * nodes(i).dy;
-            Kglobal(2*i,j) = 0;
-            Kglobal(j,2*i) = 0;                       
+            F(j) = F(j) - Kglobal(j,3*i-1) * nodes(i).dy;
+            Kglobal(3*i-1,j) = 0;
+            Kglobal(j,3*i-1) = 0;                       
         end
-        F(2*i) = nodes(i).dy;
-        Kglobal(2*i, 2*i) = 1;
+        F(3*i-1) = nodes(i).dy;
+        Kglobal(3*i-1, 3*i-1) = 1;
 
     end
+    if nodes(i).thetaconstrained
+        for j = 1:length(Kglobal)
+            F(j) = F(j) - Kglobal(j,3*i) * nodes(i).dy;
+            Kglobal(3*i,j) = 0;
+            Kglobal(j,3*i) = 0;                       
+        end
+        F(3*i) = nodes(i).dy;
+        Kglobal(3*i, 3*i) = 1;
+
+    end    
+    
 end
 
 
 D = linsolve(Kglobal,F);
 
 for i=1:length(nodes)
-    nodes(i).dx = D(2*i-1);
-    nodes(i).dy = D(2*i);
+    nodes(i).dx = D(3*i-2);
+    nodes(i).dy = D(3*i-2);
+    nodes(i).dtheta = D(3*i);
 end

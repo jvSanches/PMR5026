@@ -6,12 +6,16 @@ classdef node < handle
         index,
         x,
         y,
+        theta,
         fx,
         fy,
+        Mo,
         dx,
         dy,
+        dtheta,
         xconstrained,
         yconstrained,
+        thetaconstrained,
         
         
     end
@@ -22,12 +26,15 @@ classdef node < handle
             %   Detailed explanation goes here
             obj.x = n_x;
             obj.y = n_y;
+            obj.theta = 0;
             obj.fx = 0;
             obj.fy = 0;
+            obj.Mo = 0;
             obj.dx = 0;
             obj.dy = 0;
             obj.xconstrained = 0;
             obj.yconstrained = 0;
+            obj.thetaconstrained = 0;
         end
         function setLoad(obj, nfx, nfy)
             obj.fx = nfx;
@@ -37,7 +44,7 @@ classdef node < handle
             obj.index = ind;
         end
             
-        function constrain(obj, c_x, c_y)
+        function constrain(obj, c_x, c_y, c_theta)
             
             if c_x ~= 'u'
                 c_x = str2num(c_x);
@@ -48,6 +55,11 @@ classdef node < handle
                 c_y = str2num(c_y);
                 obj.yconstrained = 1;
                 obj.dy = c_y;
+            end
+            if c_theta ~= 'u'
+                c_theta = str2num(c_theta);
+                obj.thetaconstrained = 1;
+                obj.dtheta = c_theta;
             end
         end
         function setDeltas(obj, ndx, ndy)

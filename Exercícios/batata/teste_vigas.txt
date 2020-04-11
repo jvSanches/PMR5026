@@ -1,0 +1,29 @@
+#HEADER
+Teste com vigas
+Cabecalho de arquivo padrao
+Separar secoes com linhas vazias
+
+#DYNAMIC
+0
+
+#NODES
+0 0 
+1 0
+1 1
+
+
+#ELEMENTS
+b 1 2 1e-4 206e9 8e-6 7800 
+b 2 3 1e-4 206e9 8e-6 7800
+
+#LOADS
+@3
+10000 0 0
+
+
+#CONSTRAINTS
+@1
+0 0 0
+
+
+

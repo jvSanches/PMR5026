@@ -1,12 +1,12 @@
 figure
 
-scale = 10000;
+scale = 1;
 %%Display nodes
 max_x = -inf;
 min_x = inf;
 max_y = -inf;
 min_y = inf;
-for i = 1:steps
+for i = 1:50:steps
     clf
     hold on;
     grid on;  
