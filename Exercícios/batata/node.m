@@ -9,7 +9,7 @@ classdef node < handle
         theta,
         fx,
         fy,
-        Mo,
+        mo,
         dx,
         dy,
         dtheta,
@@ -29,16 +29,17 @@ classdef node < handle
             obj.theta = 0;
             obj.fx = 0;
             obj.fy = 0;
-            obj.Mo = 0;
+            obj.mo = 0;
             obj.dx = 0;
             obj.dy = 0;
             obj.xconstrained = 0;
             obj.yconstrained = 0;
             obj.thetaconstrained = 0;
         end
-        function setLoad(obj, nfx, nfy)
-            obj.fx = nfx;
-            obj.fy = nfy;
+        function setLoad(obj, nfx, nfy, nmo)
+            obj.fx = obj.fx + nfx;
+            obj.fy = obj.fy + nfy;
+            obj.mo = obj.mo + nmo;
         end
         function setIndex(obj, ind)
             obj.index = ind;

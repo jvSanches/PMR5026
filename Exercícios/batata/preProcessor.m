@@ -57,6 +57,6 @@ F = zeros(length(nodes),1);
 for i=1:length(nodes)
     F(3*i - 2) = nodes(i).fx;
     F(3*i-1) = nodes(i).fy;
-    F(3*i) = nodes(i).Mo;
+    F(3*i) = nodes(i).mo;
 end
 

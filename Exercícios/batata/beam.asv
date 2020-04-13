@@ -85,9 +85,9 @@ classdef beam
         function setPressure(obj, npx, npy)
             obj.Px = npx;
             obj.Py = npy;
-            nmo1 = (npx+npy) * obj.L^2 / 2; 
-            obj.n1.setLoad(obj.L * npx/2, obj.L * npy/2,nmo1);
-            obj.n2.setLoad(obj.L * npx/2, obj.L *  npy/2,-nmo1 );
+            nmox = npx * L^2 / 2 
+            obj.n1.setLoad(obj.L * npx/2, obj.L * npy/2, );
+            obj.n2.setLoad(obj.L * npx/2, obj.L *  npy/2, );
         end
     end
 end

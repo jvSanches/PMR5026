@@ -3,7 +3,7 @@ close all
 %filename = 'ex_2_din_ponte.txt';
 %filename = 'Entrada_ex3.txt';
 %filename = 'vig2.txt';
-filename = 'teste_vigas.txt';
+filename = 'ex_vigas_1.txt';
 
 run loader.m
 run plotter.m

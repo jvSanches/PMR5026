@@ -142,6 +142,39 @@ for i = 1:length(Text)
    end
 end
 
+%% Read pressures
+
+for i = 1:length(Text)
+   if strcmp(Text{i},'#PRESSURES')
+       reading_load_on_element = 0;
+       part_load_data = [];
+       j=1;
+       while (1)
+           a = sscanf(string(Text(i+j)), '%s');
+           if isempty(a)               
+               if reading_load_on_element
+                       elements(reading_load_on_element).setPressure(part_load_data(:,1),part_load_data(:,2));
+               end 
+               break;
+           else               
+               if a(1)=='@'
+                   
+                   if reading_load_on_element
+                       elements(reading_load_on_element).setPressure(part_load_data(:,1),part_load_data(:,2));
+                   end                   
+                   reading_load_on_element = str2num(a(2:end));
+               else
+                   a = sscanf(string(Text(i+j)), '%f %f %f', [1 3]);
+                   part_load_data = [part_load_data ; a];
+               end
+           end
+           j = j+1;
+           
+       end
+       
+   end
+end
+
 %% Read Constrains
 for i = 1:length(Text)
    if strcmp(Text{i},'#CONSTRAINTS')
