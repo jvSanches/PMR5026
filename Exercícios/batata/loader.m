@@ -120,18 +120,18 @@ for i = 1:length(Text)
            a = sscanf(string(Text(i+j)), '%s');
            if isempty(a)               
                if reading_load_on_node
-                       nodes(reading_load_on_node).setLoad(part_load_data(:,1),part_load_data(:,2));
+                       nodes(reading_load_on_node).setLoad(part_load_data(:,1),part_load_data(:,2),part_load_data(:,3));
                end 
                break;
            else               
                if a(1)=='@'
                    
                    if reading_load_on_node
-                       nodes(reading_load_on_node).setLoad(part_load_data(:,1),part_load_data(:,2));
+                       nodes(reading_load_on_node).setLoad(part_load_data(:,1),part_load_data(:,2),part_load_data(:,3));
                    end                   
                    reading_load_on_node = str2num(a(2:end));
                else
-                   a = sscanf(string(Text(i+j)), '%f %f', [1 2]);
+                   a = sscanf(string(Text(i+j)), '%f %f %f', [1 3]);
                    part_load_data = [part_load_data ; a];
                end
            end

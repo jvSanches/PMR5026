@@ -59,7 +59,13 @@ classdef beam
              
             obj.K = T\K * T;
                                 
-            
+            M = (obj.ro * obj.A * obj.L / 420) * [140 0 0 70 0 0;
+                0 156 22*L 0 54 -13*L;
+                0 22*L 4*L^2 0 13*L -3*L^2;
+                70 0 0 140 0 0;
+                0 54 13*L 0 156 -22*L;
+                0 -13*L -3*L^2 0 -22*L 4*L^2];
+            obj.M = T\M * T;
                             
         end
         
@@ -75,9 +81,9 @@ classdef beam
         function [m11, m12, m22, index1, index2] = decomposeMass(obj)
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
-            m11 = obj.M(1:2,1:2);
-            m12 = obj.M(1:2,3:4);
-            m22 = obj.M(3:4,3:4);
+            m11 = obj.M(1:3,1:3);
+            m12 = obj.M(1:3,4:6);
+            m22 = obj.M(4:6,4:6);
             index1 = obj.n1.index;
             index2 = obj.n2.index;
         end
@@ -94,8 +100,8 @@ classdef beam
             obj.Px = npx;
             obj.Py = npy;
             nmo1 = (npx+npy) * obj.L^2 / 2; 
-            obj.n1.setLoad(obj.L * npx/2, obj.L * npy/2,nmo1);
-            obj.n2.setLoad(obj.L * npx/2, obj.L *  npy/2,-nmo1 );
+            obj.n1.setLoad(obj.L * npx/2, obj.L * npy/2,0);
+            obj.n2.setLoad(obj.L * npx/2, obj.L *  npy/2,0 );
         end
             
         function obj = calculateStress(obj)
