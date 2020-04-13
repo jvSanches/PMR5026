@@ -47,6 +47,7 @@ classdef beam
                  0 0 0 l m 0;
                  0 0 0 -m l 0;
                  0 0 0 0 0 1];
+             
             obj.K = T\K * T;
                                 
             

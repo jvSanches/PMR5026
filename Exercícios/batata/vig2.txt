@@ -9,23 +9,22 @@ Separar secoes com linhas vazias
 #NODES
 0 0 
 1 0
-1 1
-
+2 0
+3 0
+4 0
 
 #ELEMENTS
 b 1 2 1e-4 206e9 8e-6 7800 
-b 2 3 1e-4 206e9 8e-6 7800
+b 2 3 1e-4 206e9 8e-6 7800 
+b 3 4 1e-4 206e9 8e-6 7800 
+b 4 5 1e-4 206e9 8e-6 7800 
 
 #LOADS
-@3
-3000 0 0
-
+@5
+0 1000 0
 
 #CONSTRAINTS
 @1
 0 0 0
-
-
-
 
 
