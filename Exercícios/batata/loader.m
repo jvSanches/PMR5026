@@ -23,7 +23,7 @@ for i = 1:length(Text)
 end
 
 %% Read mode
-dynamic_mode =0;
+dynamic_mode = 0;
 for i = 1:length(Text)
    if strcmp(Text{i},'#DYNAMIC')
        a = sscanf(string(Text(i+1)), '%i');
@@ -34,7 +34,22 @@ for i = 1:length(Text)
                dynamic_mode = 1;
            end
        end
-    end
+   end
+end
+
+%% Read modal
+modal_analysis = 0;
+for i = 1:length(Text)
+   if strcmp(Text{i},'#MODAL')
+       a = sscanf(string(Text(i+1)), '%i');
+       if isempty(a)
+           break;
+       else
+           if a==1
+               modal_analysis = 1;
+           end
+       end
+   end
 end
 
 %% Read timestep

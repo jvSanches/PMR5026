@@ -7,6 +7,9 @@ Separar secoes com linhas vazias
 #DYNAMIC
 0
 
+#MODAL
+1
+
 #NODES
 0 0 
 3.048 0
@@ -14,9 +17,9 @@ Separar secoes com linhas vazias
 3.048 -4.572
 
 #ELEMENTS
-b 1 2 0.0129032 200e9 0.00075 0 
-b 2 3 0.0129032 200e9 0.00075 0
-b 2 4 0.0129032 200e9 0.00075 0 
+b 1 2 0.0129032 200e9 0.00075 7800
+b 2 3 0.0129032 200e9 0.00075 7800
+b 2 4 0.0129032 200e9 0.00075 7800 
  
 
 #LOADS

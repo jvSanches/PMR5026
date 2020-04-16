@@ -4,6 +4,20 @@ scale_shear = 4e-6;
 scale_moment = 5e-6;
 
 disp("Showing results...");
+
+if modal_analysis
+ 
+   disp("Vibrating modes(Hz)")
+   
+   v = eig(Mglobal\Kglobal);
+   v = sqrt(v)/(2*pi);
+   v = sort(v);
+   v = v(4:9);
+   
+   disp(num2str(v,4));
+   return 
+end
+
 scatterNodes(nodes, elements, false, true, 0);
 title("Não deformado")
 
