@@ -1,59 +1,50 @@
 disp('Building global stiffness matrix...');
-Kglobal = zeros(3*length(nodes));
+Kglobal = sparse(3*length(nodes), 3*length(nodes));
 for i=1:length(elements)
-    Kdist = zeros(3*length(nodes));
     [k11, k12, k22, index1, index2] = elements(i).decomposeStiffnes();
     k21 = transpose(k12);
-    index1 = 3 * index1 -2;
-    index2 = 3 * index2 -2;
-    Kdist(index1,index1) = k11(1,1);
-    Kdist(index1,index1+1) = k11(1,2);
-    Kdist(index1,index1+2) = k11(1,3);
-    Kdist(index1+1,index1) = k11(2,1);
-    Kdist(index1+1,index1+1) = k11(2,2);
-    Kdist(index1+1,index1+2) = k11(2,3);
-    Kdist(index1+2,index1) = k11(3,1);
-    Kdist(index1+2,index1+1) = k11(3,2);
-    Kdist(index1+2,index1+2) = k11(3,3);
+    index1 = 3 * (index1 - 1);
+    index2 = 3 * (index2 - 1);
     
-    Kdist(index1,index2) = k12(1,1);
-    Kdist(index1,index2+1) = k12(1,2);
-    Kdist(index1,index2+2) = k12(1,3);
-    Kdist(index1+1,index2) = k12(2,1);
-    Kdist(index1+1,index2+1) = k12(2,2);
-    Kdist(index1+1,index2+2) = k12(2,3);
-    Kdist(index1+2,index2) = k12(3,1);
-    Kdist(index1+2,index2+1) = k12(3,2);
-    Kdist(index1+2,index2+2) = k12(3,3);
-  
-    Kdist(index2,index1) = k21(1,1);
-    Kdist(index2,index1+1) = k21(1,2);
-    Kdist(index2,index1+2) = k21(1,3);
-    Kdist(index2+1,index1) = k21(2,1);
-    Kdist(index2+1,index1+1) = k21(2,2);
-    Kdist(index2+1,index1+2) = k21(2,3);
-    Kdist(index2+2,index1) = k21(3,1);
-    Kdist(index2+2,index1+1) = k21(3,2);
-    Kdist(index2+2,index1+2) = k21(3,3);
-    
-    Kdist(index2,index2) = k22(1,1);
-    Kdist(index2,index2+1) = k22(1,2);
-    Kdist(index2,index2+2) = k22(1,3);
-    Kdist(index2+1,index2) = k22(2,1);
-    Kdist(index2+1,index2+1) = k22(2,2);
-    Kdist(index2+1,index2+2) = k22(2,3);
-    Kdist(index2+2,index2) = k22(3,1);
-    Kdist(index2+2,index2+1) = k22(3,2);
-    Kdist(index2+2,index2+2) = k22(3,3);
+    for j = 1:3
+        for k = 1:3
+            Kglobal(index1 + j, index1 + k) = Kglobal(index1 + j, index1 + k) + k11(j, k);
+            Kglobal(index1 + j, index2 + k) = Kglobal(index1 + j, index2 + k) + k12(j, k);
+            Kglobal(index2 + j, index1 + k) = Kglobal(index2 + j, index1 + k) + k21(j, k);
+            Kglobal(index2 + j, index2 + k) = Kglobal(index2 + j, index2 + k) + k22(j, k);
+        end
+    end
 
-    Kglobal = Kglobal + Kdist;
 end
 disp('Done')
 
-F = zeros(length(nodes),1);
+if modal_analysis
+    disp('Building global mass matrix...');
+    Mglobal = sparse(3*length(nodes), 3*length(nodes));
+    for i=1:length(elements)
+        [m11, m12, m22, index1, index2] = elements(i).decomposeMass();
+        m21 = transpose(m12);
+        
+        index1 = 3 * (index1 - 1);
+        index2 = 3 * (index2 - 1);
+    
+        for j = 1:3
+            for k = 1:3
+                Mglobal(index1 + j, index1 + k) = Mglobal(index1 + j, index1 + k) + m11(j, k);
+                Mglobal(index1 + j, index2 + k) = Mglobal(index1 + j, index2 + k) + m12(j, k);
+                Mglobal(index2 + j, index1 + k) = Mglobal(index2 + j, index1 + k) + m21(j,k);
+                Mglobal(index2 + j, index2 + k) = Mglobal(index2 + j, index2 + k) + m22(j,k);
+            end
+        end
+    end
+    disp('Done')
+end
+
+F = sparse(length(nodes),1);
 for i=1:length(nodes)
     F(3*i - 2) = nodes(i).fx;
     F(3*i-1) = nodes(i).fy;
     F(3*i) = nodes(i).mo;
 end
 
+clear i index1 index2 k11 k12 k21 k22 m11 m12 m21 m22 Kdist Mdist
