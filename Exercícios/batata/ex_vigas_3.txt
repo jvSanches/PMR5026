@@ -1,6 +1,5 @@
 #HEADER
-Ex 2 com vigas
-Unidades SI
+Ex 3 com vigas
 Cabecalho de arquivo padrao
 Separar secoes com linhas vazias
 
@@ -9,14 +8,14 @@ Separar secoes com linhas vazias
 
 #NODES
 0 0 
-3 0
-9 0
-3 -4.5
+3 3
+7.3 3
+10.3 0
 
 #ELEMENTS
-b 1 2 0.013 200e9 0.00075 7800 
-b 2 3 0.013 200e9 0.00075 7800 
-b 2 4 0.013 200e9 0.00075 7800 
+b 1 2 0.013 200e9 0.00075 0 
+b 2 3 0.013 200e9 0.00075 0 
+b 3 4 0.013 200e9 0.00075 0 
  
 
 #LOADS
@@ -27,11 +26,9 @@ b 2 4 0.013 200e9 0.00075 7800
 
 #CONSTRAINTS
 @1
-0 0 u
-@3
 u 0 u
 @4
-u 0 u
+0 0 u
 
 
 

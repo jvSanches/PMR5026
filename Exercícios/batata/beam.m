@@ -1,4 +1,4 @@
-classdef beam
+classdef beam < handle
     %UNTITLED beam element
     %   Detailed explanation goes here
     
@@ -96,20 +96,20 @@ classdef beam
             tension = (obj.L-L_strain)/obj.L * obj.E;
         end
 
-        function setPressure(obj, npx, npy)
+        function obj = setPressure(obj, npx, npy)
             obj.Px = npx;
             obj.Py = npy;
-            nmo1 = (npx+npy) * obj.L^2 / 2; 
-            obj.n1.setLoad(obj.L * npx/2, obj.L * npy/2,0);
-            obj.n2.setLoad(obj.L * npx/2, obj.L *  npy/2,0 );
+            nmo1 = (npy) * obj.L^2 / 12; 
+            obj.n1.setLoad(obj.L * npx/2, obj.L * npy/2, nmo1);
+            obj.n2.setLoad(obj.L * npx/2, obj.L *  npy/2, -nmo1);
         end
             
         function obj = calculateStress(obj)
             syms x
             u = obj.T * [obj.n1.dx; obj.n1.dy; obj.n1.dtheta; obj.n2.dx; obj.n2.dy; obj.n2.dtheta];
             
-            obj.elasticLineX = u(1) + (1 + (u(4) - u(1))/obj.L)*x + 1e-20*x;
-            obj.Normal = obj.E*obj.A*(u(4) - u(1))/obj.L + 1e-20*x;
+            obj.elasticLineX = u(1) + (1 + (u(4) - u(1))/obj.L)*x;
+            obj.Normal = obj.E*obj.A*(u(4) - u(1))/obj.L;
             
             E = obj.E; I = obj.I; L = obj.L;
             load = obj.Py;
@@ -120,8 +120,8 @@ classdef beam
             phiL = u(6);
 
             obj.elasticLineY = w0 + phi0*x + ((5*L^4*load - 360*E*I*w0 + 360*E*I*wL - 240*E*I*L*phi0 - 120*E*I*L*phiL) / (120*E*I*L^2))*x^2 + (-(10*L^4*load - 240*E*I*w0 + 240*E*I*wL - 120*E*I*L*phi0 - 120*E*I*L*phiL) / (120*E*I*L^3))*x^3 + (load / (24*E*I))*x^4;
-            obj.Moment = E*I*diff(obj.elasticLineY,2) + 1e-20*x;
-            obj.Shear = diff(obj.Moment) + 1e-20*x;
+            obj.Moment = E*I*diff(obj.elasticLineY,2);
+            obj.Shear = diff(obj.Moment);
             
         end
     end

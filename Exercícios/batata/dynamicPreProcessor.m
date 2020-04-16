@@ -73,9 +73,6 @@ for i=1:length(elements)
     Kdist(index2+2,index2+1) = k22(3,2);
     Kdist(index2+2,index2+2) = k22(3,3);
     
-     
-    disp(Kdist);
-    
     Kglobal = Kglobal + Kdist;
 end
 disp('Done')
@@ -127,7 +124,6 @@ for i=1:length(elements)
     Mdist(index2+2,index2+1) = m22(3,2);
     Mdist(index2+2,index2+2) = m22(3,3);
         
-    
     Mglobal = Mglobal + Mdist;
 end
 disp('Done')

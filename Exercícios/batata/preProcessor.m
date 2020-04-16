@@ -45,10 +45,7 @@ for i=1:length(elements)
     Kdist(index2+2,index2) = k22(3,1);
     Kdist(index2+2,index2+1) = k22(3,2);
     Kdist(index2+2,index2+2) = k22(3,3);
-    
-     
-    disp(Kdist);
-    
+
     Kglobal = Kglobal + Kdist;
 end
 disp('Done')

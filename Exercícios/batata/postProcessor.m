@@ -1,17 +1,24 @@
+scale_deform = 100;
+scale_normal = 5e-6;
+scale_shear = 4e-6;
+scale_moment = 5e-6;
+
 disp("Showing results...");
-scale = 100;
-fig_u = scatterNodes(nodes, elements, true, false);
+scatterNodes(nodes, elements, false, true, 0);
+title("Não deformado")
+
+fig_u = scatterNodes(nodes, elements, true, false, scale_deform);
 title("Deslocamentos")
 for i = 1:length(nodes)
     txt = sprintf("dx: %f\ndy: %f\ndr: %f", [nodes(i).dx, nodes(i).dy, nodes(i).dtheta]);
-    text(nodes(i).x + nodes(i).dx*scale - 0.4, nodes(i).y + nodes(i).dy*scale + 0.3, txt);
+    text(nodes(i).x + nodes(i).dx*scale_deform - 0.4, nodes(i).y + nodes(i).dy*scale_deform + 0.3, txt);
 end
 
-fig_N = scatterNodes(nodes, elements, false, true);
+fig_N = scatterNodes(nodes, elements, false, true, 0);
 title("Normal")
-fig_V = scatterNodes(nodes, elements, false, true);
+fig_V = scatterNodes(nodes, elements, false, true, 0);
 title("Cortante")
-fig_M = scatterNodes(nodes, elements, false, true);
+fig_M = scatterNodes(nodes, elements, false, true, 0);
 title("Momento fletor")
 
 for i=1:length(elements)
@@ -22,28 +29,26 @@ for i=1:length(elements)
 
     %% Display displacement
     figure(fig_u)
-    scale = 100;
 
-    u = x + scale*(eval(subs(el.elasticLineX))-x);
-    v = scale*(eval(subs(el.elasticLineY)));
+    u = x + scale_deform*(eval(subs(el.elasticLineX))-x);
+    v = scale_deform*(eval(subs(el.elasticLineY)));
     points = T*[u;v] + [el.n1.x; el.n1.y];
     
-    plot(points(1,:), points(2,:), 'b');
+    plot(points(1,:), points(2,:), 'Color', [0 0.447 0.741]);
     
     
     %% Display normal
-    plotDiagram(fig_N, el, el.Normal, x, T, 1e-5);
+    plotDiagram(fig_N, el, el.Normal, x, T, scale_normal);
 
     %% Display shear
-    plotDiagram(fig_V, el, el.Shear, x, T, 1e-5);
+    plotDiagram(fig_V, el, el.Shear, x, T, scale_shear);
 
     %% Display moment
-    plotDiagram(fig_M, el, el.Moment, x, T, 1e-6);
+    plotDiagram(fig_M, el, el.Moment, x, T, scale_moment);
 end
 
 %% Function for scatter of nodes
-function fig = scatterNodes(nodes, elements, displaced, lines)
-    scale = 100;
+function fig = scatterNodes(nodes, elements, displaced, lines, scale)
     fig = figure();
     hold on;
     grid on;
@@ -104,12 +109,19 @@ function plotDiagram(fig, element, equation, divisions, rot, scale)
     offset_y = 0.05;
     figure(fig);
     syms x
+    if (isnumeric(equation) && abs(equation) < 1e-6) || (~isnumeric(equation) && isnumeric(eval(equation)) && abs(eval(equation)) < 1e-6)
+        return
+    end
     data = eval(subs(equation, x, divisions));
+    if abs(data) < 1e-6
+        return 
+    end
+    
     points = rot*[divisions;scale*data] + [element.n1.x; element.n1.y];
     
-    plot(points(1,:), points(2,:), 'b');
-    line([points(1,1), element.n1.x], [points(2,1), element.n1.y]);
-    line([points(1,end), element.n2.x], [points(2,end), element.n2.y]);
+    plot(points(1,:), points(2,:), 'r');
+    line([points(1,1), element.n1.x], [points(2,1), element.n1.y], 'Color', 'r');
+    line([points(1,end), element.n2.x], [points(2,end), element.n2.y], 'Color', 'r');
     
     text(points(1,1) + offset_x, points(2,1) + offset_y, string(data(1)));
     text(points(1,end) + offset_x, points(2,end) + offset_y, string(data(end)));
