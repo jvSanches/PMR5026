@@ -2,7 +2,7 @@ function mefController(filename)
     close all
     
     if nargin < 1
-        filename = "balanco_modal_5.txt";
+        filename = "balanco_modal_10000.txt";
     end
     
     run loader.m

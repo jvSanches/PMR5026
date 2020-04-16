@@ -3,18 +3,18 @@ scale_normal = 5e-6;
 scale_shear = 4e-6;
 scale_moment = 5e-6;
 
-disp("Showing results...");
+disp("Calculating results...");
 
 if modal_analysis
- 
-   disp("Vibrating modes(Hz)")
-   
-   v = eig(Mglobal\Kglobal);
-   v = sqrt(v)/(2*pi);
-   v = sort(v);
-   v = v(4:9);
-   
-   disp(num2str(v,4));
+    
+    
+    [v, ~, f] = eigs(Mglobal, Kglobal, 9, 0, 'maxit', 1e12);
+    v = sqrt(v)/(2*pi);
+    v = sort(v);
+    v = v(4:9);
+    disp("Vibrating modes(Hz)")
+    
+   disp(num2str(v,8));
    return 
 end
 

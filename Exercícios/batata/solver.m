@@ -64,7 +64,7 @@ if modal_analysis
     return
 end
 
-D = linsolve(Kglobal,F);
+D = linsolve(full(Kglobal),full(F));
 
 for i=1:length(nodes)
     nodes(i).dx = D(3*i-2);
@@ -72,6 +72,6 @@ for i=1:length(nodes)
     nodes(i).dtheta = D(3*i);
 end
 
-
+clear i j
 
 

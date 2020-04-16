@@ -4,7 +4,7 @@ import os
 
 # Propriedades da viga
 E = 200e9
-A = 0.025
+A = 0.0025
 I = 5.21e-7
 p = 7800
 
