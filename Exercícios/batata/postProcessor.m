@@ -5,10 +5,8 @@ scale_moment = 5e-6;
 
 disp("Calculating results...");
 
-if modal_analysis
-    
-    
-    [v, ~, f] = eigs(Mglobal, Kglobal, 9, 0, 'maxit', 1e12);
+if modal_analysis    
+    v = eigs(Mglobal\Kglobal, 9, 0, 'maxit', 1e12);
     v = sqrt(v)/(2*pi);
     v = sort(v);
     v = v(4:9);
