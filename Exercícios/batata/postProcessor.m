@@ -1,4 +1,4 @@
-scale_deform = 100;
+    scale_deform = 100;
 scale_normal = 5e-6;
 scale_shear = 4e-6;
 scale_moment = 5e-6;
