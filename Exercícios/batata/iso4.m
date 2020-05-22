@@ -17,7 +17,7 @@ classdef iso4 < handle
     end
     
     methods
-        function obj = iso4(node1, node2, node3, node4, thickness, e_modulus, poisson ,density)
+        function obj = iso4(node1, node2, node3, node4, thickness, e_modulus, poisson ,density, plane_stress)
             %UNTITLED Construct an instance of this class
             %   Detailed explanation goes here
             obj.n1 = node1;
@@ -34,14 +34,19 @@ classdef iso4 < handle
             Be = zeros(3,8);
             Ke = zeros(8);
             mu = poisson;
+            
+            if plane_stress
             %%plane stress
-            C = 1/(1-mu^2) * [1 mu 0
-                              mu 1 0
-                              0 0 (1-mu)/2];
-            %%plane stresss
-            %C = 1/(1+mu)*(1-2*mu) * [1-mu mu 0
-            %                         mu 1-mu 0
-            %                         0 0 (1-2*mu)/2];
+                C = 1/(1-mu^2) * [1 mu 0
+                                  mu 1 0
+                                  0 0 (1-mu)/2];
+            else
+            %%plane strain
+                C = 1/(1+mu)*(1-2*mu) * [1-mu mu 0
+                                        mu 1-mu 0
+                                        0 0 (1-2*mu)/2];
+            end
+            
             for i=1:4
                 if i==1 
                     r=-0.577350269;s= r;

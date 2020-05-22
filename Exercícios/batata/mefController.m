@@ -17,7 +17,8 @@
     else
         run preProcessor.m
         run solver.m
+        run isoPlotter.m
         %run plotter.m
-        run postProcessor.m
+%         run postProcessor.m
     end
 %end

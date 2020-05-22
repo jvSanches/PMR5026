@@ -11,6 +11,7 @@ disp("Interpreting file")
 header_lines =[];
 dynamic_mode = 0;
 modal_analysis = 0;
+plane_stress = 0;
 nodes = [];
 elements = [];
 
@@ -40,7 +41,7 @@ for i = 1:length(Text)
             reading_load_on_element = 0;
         end
         if reading_constrain_on_node
-            nodes(reading_constrain_on_node).constrain(constrain_data(1),constrain_data(2),constrain_data(3));
+            nodes(reading_constrain_on_node).constrain(constrain_data(1),constrain_data(2),'0');
             reading_constrain_on_node = 0;
         end
         if reading_disp_on_node
@@ -72,6 +73,8 @@ for i = 1:length(Text)
             simtime = 0;
         case "#MODAL"
             modal_analysis = sscanf(line, '%i') == 1;
+        case "#PLANESTRESS"
+            plane_stress = sscanf(line, '%i') == 1;
         case '#TIMESTEP'
             timestep = sscanf(line, '%f');
         case '#SIMTIME'
@@ -88,15 +91,15 @@ for i = 1:length(Text)
             elseif a(1) == 'b'
                 new_element = beam(nodes(a(2)), nodes(a(3)), a(4), a(5), a(6), a(7));
             elseif a(1) == 'i'
-                new_element = iso4(nodes(a(2)), nodes(a(3)), nodes(a(4)), nodes(a(5)),a(6), a(7),a(8), a(9));
+                new_element = iso4(nodes(a(2)), nodes(a(3)), nodes(a(4)), nodes(a(5)),a(6), a(7),a(8), a(9), plane_stress);
             end
             elements = [elements new_element];
         case '#LOADS'
-            if a(1)=='@'            
+            if line(1)=='@'            
                 if reading_load_on_node
                     nodes(reading_load_on_node).setLoad(part_load_data(:,1),part_load_data(:,2),part_load_data(:,3));
                 end                   
-                reading_load_on_node = str2num(a(2:end));
+                reading_load_on_node = str2num(line(2:end));
             else
                 a = sscanf(line, '%f %f %f', [1 3]);
                 part_load_data = [part_load_data ; a];
@@ -114,11 +117,11 @@ for i = 1:length(Text)
         case '#CONSTRAINTS'
             if line(1)=='@'
                 if reading_constrain_on_node
-                   nodes(reading_constrain_on_node).constrain(constrain_data(1),constrain_data(2),constrain_data(3));
+                   nodes(reading_constrain_on_node).constrain(constrain_data(1),constrain_data(2),'0');
                 end
                 reading_constrain_on_node = str2num(line(2:end));
             else
-                constrain_data = sscanf(line, '%s %s %s', [1 3]);
+                constrain_data = sscanf(line, '%s %s', [1 2]);
             end
         case '#INITIALDISP'
             if initial_disp.isempty

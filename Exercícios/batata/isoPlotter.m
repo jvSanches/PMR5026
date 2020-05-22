@@ -1,7 +1,7 @@
 figure
 hold on;
 grid on;
-scale = 100;
+scale = 1000;
 
 %%Display nodes
 max_x = -inf;

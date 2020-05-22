@@ -42,11 +42,10 @@ if modal_analysis
     disp('Done')
 end
 
-F = sparse(length(nodes),1);
+F = sparse(2*length(nodes),1);
 for i=1:length(nodes)
-    F(3*i - 2) = nodes(i).fx;
-    F(3*i-1) = nodes(i).fy;
-    F(3*i) = nodes(i).mo;
+    F(2*i - 1) = nodes(i).fx;
+    F(2*i) = nodes(i).fy;
 end
 
 clear i index1 index2 k11 k12 k21 k22 m11 m12 m21 m22 Kdist Mdist
