@@ -82,11 +82,13 @@ for i = 1:length(Text)
             nodes = [nodes new_node];
             new_node.setIndex(length(nodes));
         case '#ELEMENTS'
-            a = sscanf(line, '%s %f %f %f %f %f %f', [1 7]);
+            a = sscanf(line, '%s %f %f %f %f %f %f %f %f ', [1 9]);
             if a(1) == 't'
                 new_element = truss(nodes(a(2)), nodes(a(3)), a(4), a(5), a(6));
             elseif a(1) == 'b'
                 new_element = beam(nodes(a(2)), nodes(a(3)), a(4), a(5), a(6), a(7));
+            elseif a(1) == 'i'
+                new_element = iso4(nodes(a(2)), nodes(a(3)), nodes(a(4)), nodes(a(5)),a(6), a(7),a(8), a(9));
             end
             elements = [elements new_element];
         case '#LOADS'
@@ -168,5 +170,5 @@ disp([num2str(length(elements)) ' elements ' ])
 disp('Loading Done');
 
 %% Clear workspace
-clear ans a fid filename header_lines i j new_element new_node part_load_data reading_load_on_element reading_load_on_node reading_on_node Text
+clear ans a fid filename header_lines i j new_element new_node part_load_data reading_load_on_element reading_load_on_node reading_on_node Text line
 

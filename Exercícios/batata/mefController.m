@@ -1,12 +1,15 @@
-function mefController(filename)
+%function mefController(filename)
     close all
     
-    if nargin < 1
-        filename = "balanco_modal_1.txt";
-    end
+%     if nargin < 1
+%         filename = "Isoparam_0.txt";
+%     end
+    filename = "Isoparam_0.txt";
     
     run loader.m
-    %run plotter.m
+    run isoPlotter.m
+    
+    
     if dynamic_mode
         run dynamicPreProcessor.m
         run dynamicSolver.m
@@ -17,4 +20,4 @@ function mefController(filename)
         %run plotter.m
         run postProcessor.m
     end
-end
+%end

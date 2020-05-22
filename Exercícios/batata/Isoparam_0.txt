@@ -1,0 +1,35 @@
+#HEADER
+Teste isoparametrico
+Unidades SI
+Cabecalho de arquivo padrao
+Separar secoes com linhas vazias
+
+#DYNAMIC
+0
+
+#MODAL
+0
+
+#NODES
+0 0 
+2 0
+1 1
+0 1
+
+#ELEMENTS
+i 1 2 3 4 0.05 200e9 0.3 7800
+
+#LOADS
+
+#PRESSURES
+
+#CONSTRAINTS
+@1
+0 0 u
+@3
+u 0 u
+@4
+u 0 u
+
+
+
