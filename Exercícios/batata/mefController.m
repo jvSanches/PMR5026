@@ -4,12 +4,11 @@
 %     if nargin < 1
 %         filename = "Isoparam_0.txt";
 %     end
-    filename = "Dinamic_isoparametric.txt";
+    filename = "Isoparam_0.txt";
     
     run loader.m
     run isoPlotter.m
-    
-    
+   
     if dynamic_mode
         run dynamicPreProcessor.m
         run dynamicSolver.m

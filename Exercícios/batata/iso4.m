@@ -17,7 +17,7 @@ classdef iso4 < handle
     end
     
     methods
-        function obj = iso4(node1, node2, node3, node4, thickness, e_modulus, poisson ,density, plane_stress)
+        function obj = iso4(node1, node2, node3, node4, thickness, e_modulus, poisson ,density, plane_stress, integration_order)
             %UNTITLED Construct an instance of this class
             %   Detailed explanation goes here
             obj.n1 = node1;
@@ -49,36 +49,65 @@ classdef iso4 < handle
                                         0 0 (1-2*mu)/2];
             end
             
-            
-            for i=1:4
-                if i==1 
-                    r=-0.577350269;s= r;
-                elseif i==2 
-                    r=-0.577350269;s=-r;
-                elseif i==3 
-                    r= 0.577350269;s= r;
-                elseif i==4 
-                    r= 0.577350269;s=-r;
-                end
+            if integration_order == 2
+                for i=1:4
+                    if i==1 
+                        r=-0.577350269;s= r;
+                    elseif i==2 
+                        r=-0.577350269;s=-r;
+                    elseif i==3 
+                        r= 0.577350269;s= r;
+                    elseif i==4 
+                        r= 0.577350269;s=-r;
+                    end
 
-                N1r=-(1-s)/4; 
-                N2r=(1-s)/4;
-                N3r=(1+s)/4; 
-                N4r=-(1+s)/4;
-                N1s=-(1-r)/4; 
-                N2s=-(1+r)/4;
-                N3s=(1+r)/4; 
-                N4s=(1-r)/4;
-%                 J(1,1)=N1r*x1+N2r*x2+N3r*x3+N4r*x4;
-%                 J(1,2)=N1r*y1+N2r*y2+N3r*y3+N4r*y4;
-%                 J(2,1)=N1s*x1+N2s*x2+N3s*x3+N4s*x4;
-%                 J(2,2)=N1s*y1+N2s*y2+N3s*y3+N4s*y4;
+                    N1r=-(1-s)/4; 
+                    N2r=(1-s)/4;
+                    N3r=(1+s)/4; 
+                    N4r=-(1+s)/4;
+                    N1s=-(1-r)/4; 
+                    N2s=-(1+r)/4;
+                    N3s=(1+r)/4; 
+                    N4s=(1-r)/4;
+
+                    J(1,1)=N1r*node1.x+N2r*node2.x+N3r*node3.x+N4r*node4.x;
+                    J(1,2)=N1r*node1.y+N2r*node2.y+N3r*node3.y+N4r*node4.y;
+                    J(2,1)=N1s*node1.x+N2s*node2.x+N3s*node3.x+N4s*node4.x;
+                    J(2,2)=N1s*node1.y+N2s*node2.y+N3s*node3.y+N4s*node4.y;
+
+                    Jinv=inv(J);
+                    N1x=Jinv(1,1)*N1r+Jinv(1,2)*N1s;
+                    N2x=Jinv(1,1)*N2r+Jinv(1,2)*N2s;
+                    N3x=Jinv(1,1)*N3r+Jinv(1,2)*N3s;
+                    N4x=Jinv(1,1)*N4r+Jinv(1,2)*N4s;
+                    N1y=Jinv(2,1)*N1r+Jinv(2,2)*N1s;
+                    N2y=Jinv(2,1)*N2r+Jinv(2,2)*N2s;
+                    N3y=Jinv(2,1)*N3r+Jinv(2,2)*N3s;
+                    N4y=Jinv(2,1)*N4r+Jinv(2,2)*N4s;
+                    B=[N1x 0 N2x 0 N3x 0 N4x 0 ;
+                    0 N1y 0 N2y 0 N3y 0 N4y ;
+                    N1y N1x N2y N2x N3y N3x N4y N4x];
                 
+                    Be=B+Be;
+                    Ke=Be'*C*Be*e_modulus*thickness*det(J)+Ke;
+                    Me=Be'*Be*density*thickness*det(J)+Me;
+                end
+            elseif integration_order == 1
+             
+                N1r=-1/2; 
+                N2r=1/2;
+                N3r=1/2; 
+                N4r=-1/2;
+                N1s=-1/2; 
+                N2s=-1/2;
+                N3s=1/2; 
+                N4s=1/2;
+
                 J(1,1)=N1r*node1.x+N2r*node2.x+N3r*node3.x+N4r*node4.x;
                 J(1,2)=N1r*node1.y+N2r*node2.y+N3r*node3.y+N4r*node4.y;
                 J(2,1)=N1s*node1.x+N2s*node2.x+N3s*node3.x+N4s*node4.x;
                 J(2,2)=N1s*node1.y+N2s*node2.y+N3s*node3.y+N4s*node4.y;
-                
+
                 Jinv=inv(J);
                 N1x=Jinv(1,1)*N1r+Jinv(1,2)*N1s;
                 N2x=Jinv(1,1)*N2r+Jinv(1,2)*N2s;
@@ -91,14 +120,15 @@ classdef iso4 < handle
                 B=[N1x 0 N2x 0 N3x 0 N4x 0 ;
                 0 N1y 0 N2y 0 N3y 0 N4y ;
                 N1y N1x N2y N2x N3y N3x N4y N4x];
+
                 Be=B+Be;
                 Ke=Be'*C*Be*e_modulus*thickness*det(J)+Ke;
-                Me=Be'*Be*density*thickness*det(J)+Ke;
-                obj.K = Ke;
-                obj.M = Me;
-            
+                Me=Be'*Be*density*thickness*det(J)+Me;
             end
             
+
+            obj.K = Ke;
+            obj.M = Me;
                             
         end
         

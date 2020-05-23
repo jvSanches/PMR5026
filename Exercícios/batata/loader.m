@@ -75,6 +75,8 @@ for i = 1:length(Text)
             modal_analysis = sscanf(line, '%i') == 1;
         case "#PLANESTRESS"
             plane_stress = sscanf(line, '%i') == 1;
+        case "#INTEGRATIONORDER"
+            integration_order = sscanf(line, '%i');
         case '#TIMESTEP'
             timestep = sscanf(line, '%f');
         case '#SIMTIME'
@@ -91,7 +93,7 @@ for i = 1:length(Text)
             elseif a(1) == 'b'
                 new_element = beam(nodes(a(2)), nodes(a(3)), a(4), a(5), a(6), a(7));
             elseif a(1) == 'i'
-                new_element = iso4(nodes(a(2)), nodes(a(3)), nodes(a(4)), nodes(a(5)),a(6), a(7),a(8), a(9), plane_stress);
+                new_element = iso4(nodes(a(2)), nodes(a(3)), nodes(a(4)), nodes(a(5)),a(6), a(7),a(8), a(9), plane_stress, integration_order);
             end
             elements = [elements new_element];
         case '#LOADS'

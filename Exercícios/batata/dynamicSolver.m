@@ -30,28 +30,22 @@ for i=1:length(nodes)
     end
 end
 
-%Cglobal = 1*Mglobal;
-
-M_inv = (Mglobal./timestep^2)^-1;
-MC1 = (2/timestep^2)*Mglobal - (1/timestep)*Cglobal;
-MC2 = (1/timestep^2)*Mglobal - (1/timestep)*Cglobal;
-
-D0 = D(1,:) - timestep*Ddot(1,:) + (timestep^2/2)*Dddot(1,:);
-D(2, :) = M_inv*(F(1,:)' - Kglobal*D(1,:)' + MC1*D(1,:)' - MC2*D0');
-for i=2:steps-1
-    Dn = D(i,:)';
-    Dn_1 = D(i-1,:)';
-    R_int = Kglobal*Dn;
-    Fn = F(i,:)';
-    
-    Dn_new = M_inv*(Fn- R_int + MC1*Dn - MC2*Dn_1);
-    D(i+1,:) = Dn_new;
+D = D'; Ddot = Ddot'; Dddot = Dddot'; F = F';
+tp(1) = 0;
+gamma = 1/2;
+beta = 1/4;
+A = (1/(beta*timestep^2))*Mglobal+(gamma/(beta*timestep))*Cglobal+Kglobal; % cálculo de K’
+invA= inv(A);
+Dddot(:,1) = inv(Mglobal)*(F(:,1)-Cglobal*Ddot(:,1)-Kglobal*D(:,1));
+for i= 1:steps
+    B = (F(:,i+1)+...
+        Mglobal*((1/(beta*timestep^2))*D(:,i)+(1/(beta*timestep))*Ddot(:,i)+ ...
+        (1/(2*beta)-1)*Dddot(:,i))+Cglobal*((gamma/(beta*timestep))*D(:,i)+...
+        (gamma/beta-1)*Ddot(:,i)+(gamma/beta-2)*(timestep/2)*Dddot(:,i)));% cálculo de F’
+    D(:,i+1) = invA*B;
+    Dddot(:,i+1) = (1/(beta*timestep^2))*(D(:,i+1)-D(:,i))...
+        -(1/(beta*timestep))*Ddot(:,i)-((1/(2*beta))-1)*Dddot(:,i);
+    Ddot(:,i+1) = Ddot(:,i)+(1-gamma)*timestep*Dddot(:,i)+gamma*timestep*Dddot(:,i+1);
+    tp(i+1) = tp(i)+timestep;
 end
-
-disp('Done')
-
-%% Plot dos valores desejados
-% limit = 10000; figure; plot(0:timestep:(limit-1)*timestep,D(1:limit,2))
-% T2 = 0.0128;
-% t = 0:timestep:2*T2;
-% figure; plot(t,D(1:length(t),4))
+D = D';
