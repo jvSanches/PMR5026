@@ -7,9 +7,6 @@ Separar secoes com linhas vazias
 #DYNAMIC
 0
 
-#MODAL
-0
-
 #NODES
 0 0
 1 0

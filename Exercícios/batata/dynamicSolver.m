@@ -11,10 +11,14 @@ for i=1:length(nodes)
             Kglobal(j,2*i-1) = 0;       
             Mglobal(2*i-1,j) = 0;
             Mglobal(j,2*i-1) = 0;    
+            Cglobal(2*i-1,j) = 0;
+            Cglobal(j,2*i-1) = 0;  
         end
         F(:,2*i-1) = nodes(i).dx;
         Kglobal(2*i-1, 2*i-1) = 1;
         Mglobal(2*i-1, 2*i-1) = 1;
+        Cglobal(2*i-1, 2*i-1) = 1;
+        
     end
     if nodes(i).yconstrained
         for j = 1:length(Kglobal)
@@ -23,14 +27,18 @@ for i=1:length(nodes)
             Kglobal(j,2*i) = 0;           
             Mglobal(2*i,j) = 0;
             Mglobal(j,2*i) = 0;   
+            Cglobal(2*i,j) = 0;
+            Cglobal(j,2*i) = 0;   
         end
         F(:,2*i) = nodes(i).dy;
         Kglobal(2*i, 2*i) = 1;
         Mglobal(2*i, 2*i) = 1;
+        Cglobal(2*i, 2*i) = 1;
     end
 end
 
-D = D'; Ddot = Ddot'; Dddot = Dddot'; F = F';
+%% Solve by Newmark
+D = D'; Ddot = Ddot'; Dddot = Dddot'; F = F'; % Transpose matrices
 tp(1) = 0;
 gamma = 1/2;
 beta = 1/4;
@@ -48,4 +56,6 @@ for i= 1:steps
     Ddot(:,i+1) = Ddot(:,i)+(1-gamma)*timestep*Dddot(:,i)+gamma*timestep*Dddot(:,i+1);
     tp(i+1) = tp(i)+timestep;
 end
-D = D';
+D = D'; Ddot = Ddot'; Dddot = Dddot'; F = F'; % Transpose matrices back
+
+clear i A B gamma beta invA

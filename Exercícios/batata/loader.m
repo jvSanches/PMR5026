@@ -10,7 +10,6 @@ disp("Interpreting file")
 
 header_lines =[];
 dynamic_mode = 0;
-modal_analysis = 0;
 plane_stress = 0;
 nodes = [];
 elements = [];
@@ -20,12 +19,10 @@ reading_load_on_element = 0;
 reading_constrain_on_node = 0;
 reading_disp_on_node = 0;
 reading_vel_on_node = 0;
-reading_acc_on_node = 0;
 part_load_data = [];
 
 initial_disp = [];
 initial_vel = [];
-initial_acc = [];
 
 state = "";
 for i = 1:length(Text)
@@ -52,10 +49,6 @@ for i = 1:length(Text)
             initial_vel(:,reading_vel_on_node) = transpose(disp_data);
             reading_vel_on_node = 0;
         end
-        if reading_acc_on_node
-            initial_acc(:,reading_acc_on_node) = transpose(disp_data);
-            reading_acc_on_node = 0;
-        end
         state = "";
         continue;
     elseif line(1) == "#"
@@ -71,8 +64,6 @@ for i = 1:length(Text)
             dynamic_mode = sscanf(line, '%i') == 1;
             timestep = 0;
             simtime = 0;
-        case "#MODAL"
-            modal_analysis = sscanf(line, '%i') == 1;
         case "#PLANESTRESS"
             plane_stress = sscanf(line, '%i') == 1;
         case "#INTEGRATIONORDER"
@@ -88,11 +79,7 @@ for i = 1:length(Text)
             new_node.setIndex(length(nodes));
         case '#ELEMENTS'
             a = sscanf(line, '%s %f %f %f %f %f %f %f %f ', [1 9]);
-            if a(1) == 't'
-                new_element = truss(nodes(a(2)), nodes(a(3)), a(4), a(5), a(6));
-            elseif a(1) == 'b'
-                new_element = beam(nodes(a(2)), nodes(a(3)), a(4), a(5), a(6), a(7));
-            elseif a(1) == 'i'
+            if a(1) == 'i'
                 new_element = iso4(nodes(a(2)), nodes(a(3)), nodes(a(4)), nodes(a(5)),a(6), a(7),a(8), a(9), plane_stress, integration_order);
             end
             elements = [elements new_element];
@@ -151,18 +138,6 @@ for i = 1:length(Text)
             else
                 vel_data = sscanf(line, '%s %s %s', [1 3]);
             end
-        case '#INITIALACCEL'
-            if initial_acc.isempty
-                initial_acc = zeros(2,length(nodes));
-            end
-            if line(1)=='@'
-                if reading_acc_on_node
-                   initial_acc(:,reading_acc_on_node) = transpose(acc_data);
-                end
-                reading_acc_on_node = str2num(line(2:end));
-            else
-                disp_acc = sscanf(line, '%s %s %s', [1 3]);
-            end
     end
 end
 
@@ -177,5 +152,5 @@ disp([num2str(length(elements)) ' elements ' ])
 disp('Loading Done');
 
 %% Clear workspace
-clear ans a fid filename header_lines i j new_element new_node part_load_data reading_load_on_element reading_load_on_node reading_on_node Text line
+clear ans a fid header_lines i j new_element new_node part_load_data reading_load_on_element reading_load_on_node reading_on_node Text line state reading_constrain_on_node reading_disp_on_node reading_vel_on_node constrain_data
 

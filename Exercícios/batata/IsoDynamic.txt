@@ -8,10 +8,10 @@ Separar secoes com linhas vazias
 1
 
 #TIMESTEP
-0.00001
+0.001
 
 #SIMTIME
-1
+0.3
 
 #NODES
 0 0
@@ -35,6 +35,9 @@ Separar secoes com linhas vazias
 
 #PLANESTRESS
 1
+
+#INTEGRATIONORDER
+2
 
 #ELEMENTS
 i 1 2 8 7 0.05 200e9 0.3 7800

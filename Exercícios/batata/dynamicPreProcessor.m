@@ -1,3 +1,4 @@
+%% Sets initial condition
 steps = round(simtime/timestep);
 dof = 2*length(nodes);
 D = zeros(steps+1, dof);
@@ -28,7 +29,7 @@ for i=1:length(nodes)
 end
  
 %% Builds system matrices
-disp('Building global stiffness matrix...');
+disp('Building global matrices...');
 Kglobal = zeros(2*length(nodes),2*length(nodes));
 Mglobal = zeros(2*length(nodes));
 
@@ -55,3 +56,5 @@ end
 disp('Done')
 
 Cglobal = 0.0004 * (0.3*Mglobal + 0.03*Kglobal);
+
+clear dof initial_disp initial_vel i j k Klocal Mlocal index1 index2 index3 index4 positions j

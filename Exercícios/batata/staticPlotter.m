@@ -79,3 +79,5 @@ for i=1:length(elements)
         line(line_x,line_y)
     end
 end
+ 
+clear dxja dxjb dyja dyjb i j line_x line_y max_x max_y min_x min_y nx ny offset scale xja xjb yja yjb scale
