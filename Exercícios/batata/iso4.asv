@@ -29,7 +29,6 @@ classdef iso4 < handle
             obj.ro = density;
             obj.mu = poisson;
             
-            
             %%
             J = zeros(2);
             Be = zeros(3,8);
@@ -93,20 +92,18 @@ classdef iso4 < handle
                 N1y N1x N2y N2x N3y N3x N4y N4x];
                 Be=B+Be;
                 Ke=Be'*C*Be*e_modulus*thickness*det(J)+Ke;
-                Me=Be'*Be*density*thickness*det(J)+Ke;
+                Me=
                 obj.K = Ke;
-                obj.M = Me;
             
             end
             
                             
         end
         
-        function [K,M, index1, index2, index3, index4] = decomposeMatrices(obj)
+        function [K, index1, index2, index3, index4] = decomposeStiffnes(obj)
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
             K=obj.K;
-            M=obj.M;
             index1 = obj.n1.index;
             index2 = obj.n2.index;
             index3 = obj.n3.index;

@@ -1,14 +1,17 @@
 #HEADER
-Teste isoparametrico
+Teste isoparametrico dinamico
 Unidades SI
 Cabecalho de arquivo padrao
 Separar secoes com linhas vazias
 
 #DYNAMIC
-0
+1
 
-#MODAL
-0
+#TIMESTEP
+0.00001
+
+#SIMTIME
+1
 
 #NODES
 0 0
@@ -31,7 +34,7 @@ Separar secoes com linhas vazias
 5 2
 
 #PLANESTRESS
-0
+1
 
 #ELEMENTS
 i 1 2 8 7 0.05 200e9 0.3 7800
@@ -46,20 +49,11 @@ i 10 11 17 16 0.05 200e9 0.3 7800
 i 11 12 18 17 0.05 200e9 0.3 7800
 
 #LOADS
-@17
+@18
+0 0 0
 0 -10000 0
 
 #PRESSURES
-@6
-0 -10000 3
-@7
-0 -10000 3
-@8
-0 -10000 3
-@9
-0 -10000 3
-@10
-0 -10000 3
 
 #CONSTRAINTS
 @1
@@ -69,5 +63,10 @@ i 11 12 18 17 0.05 200e9 0.3 7800
 @13
 0 0
 
+#INITIALDISP
+
+#INITIALVEL
+
+#INITIALACCEL
 
 

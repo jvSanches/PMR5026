@@ -37,7 +37,7 @@ for i = 1:length(Text)
             reading_load_on_node = 0;
         end 
         if reading_load_on_element
-            elements(reading_load_on_element).setPressure(part_load_data(:,1),part_load_data(:,2));
+            elements(reading_load_on_element).setPressure(part_load_data(:,1),part_load_data(:,2),part_load_data(:,3));
             reading_load_on_element = 0;
         end
         if reading_constrain_on_node
@@ -98,6 +98,7 @@ for i = 1:length(Text)
             if line(1)=='@'            
                 if reading_load_on_node
                     nodes(reading_load_on_node).setLoad(part_load_data(:,1),part_load_data(:,2),part_load_data(:,3));
+                    part_load_data = [];
                 end                   
                 reading_load_on_node = str2num(line(2:end));
             else
@@ -107,7 +108,8 @@ for i = 1:length(Text)
         case '#PRESSURES'
             if line(1)=='@'
                 if reading_load_on_element
-                    elements(reading_load_on_element).setPressure(part_load_data(:,1),part_load_data(:,2));
+                    elements(reading_load_on_element).setPressure(part_load_data(:,1),part_load_data(:,2), part_load_data(:,3));
+                    part_load_data = [];
                 end                   
                 reading_load_on_element = str2num(line(2:end));
             else

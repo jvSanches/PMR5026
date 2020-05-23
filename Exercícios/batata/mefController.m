@@ -4,7 +4,7 @@
 %     if nargin < 1
 %         filename = "Isoparam_0.txt";
 %     end
-    filename = "Isoparam_0.txt";
+    filename = "Dinamic_isoparametric.txt";
     
     run loader.m
     run isoPlotter.m
